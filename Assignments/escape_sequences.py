@@ -1,0 +1,5 @@
+print("welcome \n python!")
+print("welcome \tpython!")
+print("welcome\bpython!")
+print("welcome \"python!\"")
+print("welcome \'python!\'")
