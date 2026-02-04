@@ -117,37 +117,5 @@ if days >2:
 rent=rent+days*2000
 print("total hotel rent is:", rent)"""
 
-"""for i in range(10,0,-1):
-    print(i)"""
-
-"""for i in range(1,6):
-       for j in range(i):
-         print(i, end="")
-       print("")"""
-"""
-for i in range(1,6):
-       for j in range(i):
-         print(j+1, end="")
-       print("")"""
 
 
-"""for i in range(5,0,-1):
-       for j in range(i):
-         print("*",end="")
-       print("")"""
-
-"""for i in range(1,6):
-       for j in range(i):
-         print(chr(65+j),end=" ")
-       print(" ")"""
-
-n=1
-for i in range(1,6):
-       for i in range(i):
-         print(n,end=" ")
-         n+=1
-       print(" ")
-
-"""n=int(input("enter number: "))
-for i in range(1,11):
-    print(f"{n}*{i}={n*i}")"""

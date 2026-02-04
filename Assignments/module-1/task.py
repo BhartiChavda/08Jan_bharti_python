@@ -1,4 +1,3 @@
-
 firstname=input("enter first name: ")
 lastname=input("enter last name: ")
 email=input("enter email ID: ")
@@ -33,11 +32,8 @@ else:
 if password==confirmpassword:
     print(confirmpassword)
 else:
-    print("length shoud be min 8 and max 12 char")
+    print("password do not match")
 
 
 
 
-
-
-          
