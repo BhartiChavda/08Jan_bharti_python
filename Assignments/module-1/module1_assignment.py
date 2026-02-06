@@ -144,6 +144,75 @@ Copy code
       print("*", end="")
      print()"""
 
+#lab 6
+# Write a generator function that generates the first 10 even numbers. 
+"""def even_numbers():
+    num = 2
+    for i in range(10):
+        yield num
+        num += 2
+
+# using the generator
+for even in even_numbers():
+    print(even)
+#Write a Python program that uses a custom iterator to iterate over a list of integers. 
+class MyIterator:
+    def __init__(self, data):
+        self.data = data
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index < len(self.data):
+            value = self.data[self.index]
+            self.index += 1
+            return value
+        else:
+            raise StopIteration
+numbers = [10, 20, 30, 40, 50]
+obj = MyIterator(numbers)
+
+for num in obj:
+    print(num)"""
+
+
+#lab 7
+# Practical Example: 1) Write a Python program to print "Hello" using a string.
+print('hello')
+
+# Practical Example: 2) Write a Python program to allocate a string to a variable and print it. 
+name= "bharti"
+print(name)
+
+#Practical Example: 3) Write a Python program to print a string using triple quotes. 
+name="""hello 
+my name is bharti"""
+print(name)
+
+#Practical Example: 4) Write a Python program to access the first character of a string using index value. 
+name="bharti"
+print(name[0])
+
+#Practical Example: 5) Write a Python program to access the string from the second position onwards using slicing.
+name="bharti chavda" 
+print(name[1:])
+
+#Practical Example: 6) Write a Python program to access a string up to the fifth character. 
+name="bharti chavda" 
+print(name[:5])
+
+#Practical Example: 7) Write a Python program to print the substring between index values 1 and 4. 
+name="bharti chavda" 
+print(name[1:4])
+
+#Practical Example: 8) Write a Python program to print a string from the last character. 
+name="bharti chavda" 
+print(name[-1])
+#Practical Example: 9) Write a Python program to print every alternate character from the string starting from index 1. 
+name="bharti chavda" 
+print(name[1::2])
 
 #lab 8
 #Practical Example: 1) Write a Python program to skip 'banana' in a list using the continue statement. List1 = ['apple', 'banana', 'mango'] 
@@ -178,3 +247,26 @@ print(name.capitalize())
 print(name.istitle())
 print(name.split())  
 """
+
+#lab 10
+#Write a Python program to apply the map() function to square a list of numbers. 
+numbers = [1, 2, 3, 4, 5]
+square_numbers = list(map(lambda x: x*x, numbers))
+print("Original list:", numbers)
+print("Squared list:", square_numbers)
+
+# Write a Python program that uses reduce() to find the product of a list of numbers. 
+from functools import reduce
+numbers = [1, 2, 3, 4, 5]
+product = reduce(lambda x, y: x*y, numbers)
+print("List:", numbers)
+print("Product of all numbers:", product)
+
+# Write a Python program that filters out even numbers using the filter() function.
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+odd_numbers = list(filter(lambda x: x % 2 != 0, numbers))
+print("Original list:", numbers)
+print("Odd numbers:", odd_numbers)
+
+
+
