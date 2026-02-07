@@ -20,7 +20,7 @@ for i in range(n):
     elif per>=40:
         print("Grade c")
 
-else:
-    print("you are fail")
+    else:
+        print("you are fail")
 
 
