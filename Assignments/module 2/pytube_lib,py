@@ -1,0 +1,24 @@
+"""
+from pytubefix import YouTube
+
+url = "https://youtu.be/eDTcSaZcLh4?si=eviP0js4Ohd5JM5x"
+
+yt = YouTube(url)
+
+stream = yt.streams.filter(progressive=True, file_extension='mp4') \
+                   .order_by('resolution') \
+                   .desc() \
+                   .first()
+
+file_path = stream.download()
+
+print("Download Completed Successfully ✅")
+print("File saved at:", file_path)"""
+
+
+from pytubefix import YouTube
+
+url="https://www.youtube.com/watch?v=ATyjL5M4ljo"
+
+YouTube(url).streams.first().download()
+
