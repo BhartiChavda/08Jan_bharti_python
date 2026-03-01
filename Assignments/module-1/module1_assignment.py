@@ -1,25 +1,25 @@
 #lab 1
-"""print("Hello, World!")
+print("Hello, World!")
 
 name=input("enter your name: ")
-print("my nazmed is", name)"""
+print("my nazmed is", name)
 
 #lab 2
 # It uses proper indentation, comments, and variables
-"""f_number = int(input("Enter first number: "))
+f_number = int(input("Enter first number: "))
 s_number = int(input("Enter second number: "))
 
 # Calculate the sum of two numbers
 total = f_number + s_number
 
 # Display the result
-print("Sum =", total)"""
+print("Sum =", total)
 
 
 
 #lab 3
 #Write a Python program to demonstrate the creation of variables and different data types. 
-"""b=23 #integer int
+b=23 #integer int
 print(b)
 b1=23.2#float 
 print(b1)
@@ -62,11 +62,11 @@ d = True
 print(type(a))
 print(type(b))
 print(type(c))
-print(type(d))"""
+print(type(d))
 
 
 #lab 4
-"""#Practical Example 5: Write a Python program to find greater and less than a number using if_else. 
+#Practical Example 5: Write a Python program to find greater and less than a number using if_else. 
 num = int(input("Enter a number: "))
 if num>10:
     print("Number is greater than 10")
@@ -105,12 +105,12 @@ if age >= 18:
     else:
         print("Not eligible (Weight less than 50)")
 else:
-    print("Not eligible (Age less than 18)")"""
+    print("Not eligible (Age less than 18)")
 
 #lab 5
 
 #Practical Example 1: Write a Python program to print each fruit in a list using a simple for loop. List1 = ['apple', 'banana', 'mango'] 
-"""List1 = ['apple', 'banana', 'mango'] 
+List1 = ['apple', 'banana', 'mango'] 
 for i in List1:
     print(i)"""
 
@@ -118,17 +118,17 @@ for i in List1:
 # Practical Example 2: Write a Python program to find the length of each string in List1. 
 """List1 = ['apple', 'banana', 'mango'] 
 for i in List1:
-    print(i,":", len(i))"""
+    print(i,":", len(i))
 
 #Practical Example 3: Write a Python program to find a specific string in the list using a simple for loop and if condition. 
-"""List1 = ['apple', 'banana', 'mango'] 
+List1 = ['apple', 'banana', 'mango'] 
 search_list=input("enter item name: ")
 for i in List1:
     if i== search_list:
         print(search_list)
         break
 else:
-        print("item not found")"""
+        print("item not found")
 
 #Practical Example 4: Print this pattern using nested for loop: 
 """markdown 
@@ -139,14 +139,14 @@ Copy code
 **** 
 ***** """
 
-"""for i in range(1,6):
+for i in range(1,6):
      for j in range(i):
       print("*", end="")
-     print()"""
+     print()
 
 #lab 6
 # Write a generator function that generates the first 10 even numbers. 
-"""def even_numbers():
+def even_numbers():
     num = 2
     for i in range(10):
         yield num
@@ -175,7 +175,7 @@ numbers = [10, 20, 30, 40, 50]
 obj = MyIterator(numbers)
 
 for num in obj:
-    print(num)"""
+    print(num)
 
 
 #lab 7
@@ -216,7 +216,7 @@ print(name[1::2])
 
 #lab 8
 #Practical Example: 1) Write a Python program to skip 'banana' in a list using the continue statement. List1 = ['apple', 'banana', 'mango'] 
-"""List1 = ['apple', 'banana', 'mango'] 
+List1 = ['apple', 'banana', 'mango'] 
 for i in List1:
     if i== "banana":
        continue
@@ -227,26 +227,26 @@ for i in List1:
 for i in List1:
     if i == "banana":
        break
-    print(i)"""
+    print(i)
 
 
 #lab 9
 # Write a Python program to demonstrate string slicing. 
-"""name="bharti ravjibhai chavda"
+name="bharti ravjibhai chavda"
 print(name[10])
 print(name[7:16])
 print(name[-10])
 print(name[10:])
 print(name[:16])
-"""
+
 # Write a Python program that manipulates and prints strings using various string methods. 
-"""name="bharti chavda"
+name="bharti chavda"
 print(name.upper())
 print(name.lower())
 print(name.capitalize())
 print(name.istitle())
 print(name.split())  
-"""
+
 
 #lab 10
 #Write a Python program to apply the map() function to square a list of numbers. 
