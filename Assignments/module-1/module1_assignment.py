@@ -112,11 +112,11 @@ else:
 #Practical Example 1: Write a Python program to print each fruit in a list using a simple for loop. List1 = ['apple', 'banana', 'mango'] 
 List1 = ['apple', 'banana', 'mango'] 
 for i in List1:
-    print(i)"""
+    print(i)
 
 
 # Practical Example 2: Write a Python program to find the length of each string in List1. 
-"""List1 = ['apple', 'banana', 'mango'] 
+List1 = ['apple', 'banana', 'mango'] 
 for i in List1:
     print(i,":", len(i))
 
@@ -220,10 +220,10 @@ List1 = ['apple', 'banana', 'mango']
 for i in List1:
     if i== "banana":
        continue
-    print(i)"""
+    print(i)
 
 #Practical Example: 2) Write a Python program to stop the loop once 'banana' is found using the break statement. 
-"""List1 = ['apple', 'banana', 'mango'] 
+List1 = ['apple', 'banana', 'mango'] 
 for i in List1:
     if i == "banana":
        break
@@ -267,6 +267,9 @@ numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 odd_numbers = list(filter(lambda x: x % 2 != 0, numbers))
 print("Original list:", numbers)
 print("Odd numbers:", odd_numbers)
+
+
+
 
 
 
