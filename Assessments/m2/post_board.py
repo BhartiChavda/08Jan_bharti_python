@@ -36,13 +36,16 @@ def main():
     while True:
         print("\n1.create post")
         print("2. view all posts")
-        print("3. exit")
-        choice=int(input("entre choice(1,2,3):"))
+        print("3. search users")
+        print("4. exit")
+        choice=int(input("entre choice(1,2,3,4):"))
         if choice==1:
             createpost(current_user)
         elif choice==2:
             viewallpost()
         elif choice==3:
+            searchpost()
+        elif choice==4:
             print("exit program")
             break
         else:
@@ -58,6 +61,20 @@ def viewallpost():
         print("title:",post["title"])
         print("description:",post["description"])
         print("date:",post["date"],"\n")
+
+def searchpost():
+    search=input("search user name: ")
+    found=False
+    for post in posts:
+        if post["author"]==search:
+            print("author:",post["author"])
+            print("title:",post["title"])
+            print("description:",post["description"])
+            print("date:",post["date"],"\n")
+            found=True
+
+    if found==False:
+        print("not available in this user")
 main()
 
 
