@@ -10,37 +10,37 @@ try:
 
     #Name
     lbl1 = tkinter.Label(b, text="Enter your name:", bg="skyblue", fg="black", font=("Bahnschrift", 12, "bold"))
-    lbl1.grid(row=0, column=0, sticky="w", padx=10, pady=5)
+    lbl1.grid(row=0, column=0, sticky="w")
     txt1 = tkinter.Entry(b, width=30)
-    txt1.grid(row=0, column=1, padx=10, pady=5)
+    txt1.grid(row=0, column=1)
 
     #Post Title
     lbl2 = tkinter.Label(b, text="Post title:", bg="skyblue", fg="black", font=("Bahnschrift", 12, "bold"))
-    lbl2.grid(row=1, column=0, sticky="w", padx=10, pady=5)
+    lbl2.grid(row=1, column=0, sticky="w")
     txt2 = tkinter.Entry(b, width=30)
-    txt2.grid(row=1, column=1, padx=10, pady=5)
+    txt2.grid(row=1, column=1)
 
     #Post Content
     lbl3 = tkinter.Label(b, text="Post content:", bg="skyblue", fg="black", font=("Bahnschrift", 12, "bold"))
-    lbl3.grid(row=2, column=0, sticky="nw", padx=10, pady=5)
+    lbl3.grid(row=2, column=0, sticky="nw")
     txt3 = tkinter.Text(b, height=5, width=40)
-    txt3.grid(row=2, column=1, padx=10, pady=5)
+    txt3.grid(row=2, column=1)
 
     #Save Button
     btn_save = tkinter.Button(b, text="Save", bg="green", fg="white", font="Bahnschrift 12 bold")
-    btn_save.grid(row=3, column=1, pady=10)
+    btn_save.grid(row=3, column=1)
 
     #Listbox
     lbl_list = tkinter.Label(b, text="Saved Posts:", bg="skyblue", fg="black", font=("Bahnschrift", 12, "bold"))
-    lbl_list.grid(row=4, column=0, sticky="w", padx=10, pady=5)
+    lbl_list.grid(row=4, column=0, sticky="w")
     post_list = tkinter.Listbox(b, width=50)
-    post_list.grid(row=5, column=0, columnspan=2, padx=10, pady=5)
+    post_list.grid(row=5, column=0, columnspan=2)
 
     #Post Content Display
     lbl_display = tkinter.Label(b, text="Post Content:", bg="skyblue", fg="black", font=("Bahnschrift", 12, "bold"))
-    lbl_display.grid(row=6, column=0, sticky="w", padx=10, pady=5)
+    lbl_display.grid(row=6, column=0, sticky="w")
     display = tkinter.Text(b, height=10, width=50)
-    display.grid(row=7, column=0, columnspan=2, padx=10, pady=5)
+    display.grid(row=7, column=0, columnspan=2)
 
     #Create folder
     if not os.path.exists("posts"):
