@@ -11,7 +11,7 @@ st.stid=206
 st.stnm="shivansh"
 st.getdata()
 
-#instance
+#instance object 
 studentinfo().getdata()
 studentinfo().stid=2312
 studentinfo().stnm="princy"
