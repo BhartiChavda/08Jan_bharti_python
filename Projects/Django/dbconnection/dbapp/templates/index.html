@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB demo</title>
+</head>
+<body style="background-color: skyblue; text-align: center; color: chocolate;">
+    <h1>Database</h1>
+    <hr>
+    <form method="post">
+        {%csrf_token%}
+            <input type="text" name="name" placeholder="name"><br><br>
+            <input type="email" name="email" placeholder="email"><br><br>
+            <input type="date" name="dob" placeholder="DOB"><br><br>
+            <input type="number" name="mobile" placeholder="mobile"><br><br>
+            <textarea name="address" name="address"></textarea><br><br>
+            <input type="submit">
+    </form>
+    <hr>    
+    <a href="showdata/">showdata</a>
+
+    
+</body>
+</html>

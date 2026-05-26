@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+<body>
+
+<h1>Django Calculator</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="number" name="num1" placeholder="Enter number 1" required>
+    <input type="number" name="num2" placeholder="Enter number 2" required>
+
+    <select name="op">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+    </select>
+
+    <button type="submit">Calculate</button>
+</form>
+
+<h2>Result: {{ result }}</h2>
+
+</body>
+</html>

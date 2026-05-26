@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+     <nav class="bg-black text-white px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-semibold">My Website</h1>
+
+        <div class="flex items-center gap-4">
+            <!-- Django username -->
+            <span class="text-sm">
+                Welcome, <strong>{{user}}</strong>
+            </span>
+
+             {% if user is none %}
+            <a href="/" class="bg-white text-black px-4 py-1 rounded-lg hover:bg-gray-200 transition">
+                Login
+            </a>
+
+            {% else %}
+            <a href="/userlogout" class="bg-white text-black px-4 py-1 rounded-lg hover:bg-gray-200 transition">
+                Logout
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+
+    {% if user is none %}
+    <div class="p-10">
+
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            Oops!!!!  <a href="/">Login</a>first
+        </h2>
+    {% else %}
+
+    <div class="p-10">
+
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            Dashboard 🎉
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="text-lg font-bold mb-2">Profile</h3>
+                <p class="text-gray-600">View and update your profile.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="text-lg font-bold mb-2">Orders</h3>
+                <p class="text-gray-600">Check your order history.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="text-lg font-bold mb-2">Settings</h3>
+                <p class="text-gray-600">Manage account settings.</p>
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+
+</body>
+</html>

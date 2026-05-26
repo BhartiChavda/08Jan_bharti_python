@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}Security Integration | NotesHub{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-6">
+    <div class="mb-12">
+        <h1 class="text-6xl font-black text-slate-900 tracking-tighter uppercase mb-4 theme-text">Security Core</h1>
+        <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.4em]">Manage your account encryption and access protocols</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- Sidebar Navigation -->
+        <div class="space-y-4">
+            <div class="bg-white border border-slate-100 p-8 rounded-[2.5rem] shadow-sm theme-bg theme-border">
+                <div class="space-y-2">
+                    <a href="{% url 'settings' %}" class="w-full block text-left px-6 py-4 rounded-2xl text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-slate-50 transition-all theme-text">
+                        Profile Details
+                    </a>
+                    <button class="w-full text-left px-6 py-4 rounded-2xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-100">
+                        Security Core
+                    </button>
+                    <a href="{% url 'integrations_settings' %}" class="w-full block text-left px-6 py-4 rounded-2xl text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-slate-50 transition-all theme-text">
+                        Integrations
+                    </a>
+                </div>
+            </div>
+
+            <!-- Security Status -->
+            <div class="bg-white border border-slate-100 p-8 rounded-[2.5rem] shadow-sm theme-bg theme-border">
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 px-2">Integrity Status</p>
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase">Account Status</span>
+                        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-[8px] font-black uppercase tracking-widest">Active</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase">Encryption</span>
+                        <span class="px-3 py-1 bg-indigo-500/10 text-indigo-500 rounded-full text-[8px] font-black uppercase tracking-widest">AES-256</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase">2FA Status</span>
+                        <span class="px-3 py-1 bg-amber-500/10 text-amber-500 rounded-full text-[8px] font-black uppercase tracking-widest">Disabled</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Form Area -->
+        <div class="lg:col-span-2">
+            <div class="bg-white border border-slate-100 p-12 rounded-[3.5rem] shadow-xl theme-bg theme-border">
+                <div class="mb-10">
+                    <h3 class="text-2xl font-black text-slate-900 mb-2 theme-text">Update Access Protocol</h3>
+                    <p class="text-sm text-slate-500 font-medium leading-relaxed">Ensure your workspace remains secure by maintaining complex credentials.</p>
+                </div>
+
+                <form method="post" class="space-y-8">
+                    {% csrf_token %}
+                    
+                    <div class="space-y-8">
+                        {% for field in form %}
+                        <div class="group">
+                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4 ml-1">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <p class="text-[10px] text-rose-500 font-black uppercase tracking-widest mt-2">{{ error }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="pt-10 border-t border-slate-50 theme-border flex flex-col sm:flex-row gap-6">
+                        <button type="submit" class="btn-premium px-12 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-indigo-100">
+                            Re-Authorize & Update
+                        </button>
+                        <a href="{% url 'settings' %}" class="px-12 py-5 rounded-2xl bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-100 transition-all text-center theme-bg theme-text">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Coming Soon Security Features -->
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-8 bg-white border border-slate-100 rounded-[2.5rem] theme-bg theme-border opacity-50 cursor-not-allowed grayscale">
+                    <div class="w-10 h-10 bg-slate-100 rounded-xl mb-4 flex items-center justify-center text-slate-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    </div>
+                    <h4 class="text-xs font-black uppercase tracking-widest text-slate-900 mb-2 theme-text">2FA Integration</h4>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Coming to the next revision</p>
+                </div>
+                <div class="p-8 bg-white border border-slate-100 rounded-[2.5rem] theme-bg theme-border opacity-50 cursor-not-allowed grayscale">
+                    <div class="w-10 h-10 bg-slate-100 rounded-xl mb-4 flex items-center justify-center text-slate-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 10-4-4v2a4 4 0 004 4zm11-2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    </div>
+                    <h4 class="text-xs font-black uppercase tracking-widest text-slate-900 mb-2 theme-text">Device Logs</h4>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Available in Enterprise</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input {
+        width: 100%;
+        padding: 1.25rem;
+        border-radius: 1rem;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+    input:focus {
+        border-color: var(--indigo-accent);
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+</style>
+{% endblock %}
