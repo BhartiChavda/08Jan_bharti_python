@@ -1,0 +1,80 @@
+{% extends 'doctor/base.html' %}
+{% block content %}
+<div class="glass-card" style="text-align: center; padding: 60px 30px;">
+    <h1>Welcome to Doctor Finder</h1>
+    <p style="font-size: 1.2rem; color: #555; margin-bottom: 30px;">Find the best doctors near you with ease and book your appointments instantly.</p>
+</div>
+
+<div class="glass-card">
+    <h2><i class="fa-solid fa-list"></i> Doctor Directory (AJAX)</h2>
+    <div id="doctor-list" class="doctor-grid" style="margin-bottom: 30px;">
+        <!-- Loaded via AJAX -->
+    </div>
+
+    <h3><i class="fa-solid fa-user-plus"></i> Add a Doctor</h3>
+    <form id="ajax-doctor-form" class="form-container" style="max-width: 500px; padding: 20px 0; border:none; box-shadow:none; background:transparent; backdrop-filter:none;">
+        {% csrf_token %}
+        <input type="text" id="doc-name" placeholder="Doctor Name" required>
+        <input type="text" id="doc-spec" placeholder="Specialty (e.g. Cardiologist)" required>
+        <button type="submit" class="btn-primary">Add Doctor</button>
+    </form>
+</div>
+
+<script>
+    // Lab 14 AJAX operations
+    function loadDoctors() {
+        fetch('/api/doctors/')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.doctors.forEach(doc => {
+                    html += `
+                        <div class="glass-card doctor-item" style="padding: 20px; margin-bottom: 0;">
+                            <div>
+                                <h3>${doc.name}</h3>
+                                <p class="specialty"><i class="fa-solid fa-stethoscope"></i> ${doc.specialty}</p>
+                            </div>
+                            <button class="btn-danger" style="margin-top: 15px;" onclick="deleteDoctor(${doc.id})">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    `;
+                });
+                document.getElementById('doctor-list').innerHTML = html || '<p>No doctors found.</p>';
+            });
+    }
+
+    document.getElementById('ajax-doctor-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch('/api/doctors/add/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                name: document.getElementById('doc-name').value,
+                specialty: document.getElementById('doc-spec').value
+            })
+        }).then(res => res.json()).then(data => {
+            if (data.status === 'success') {
+                loadDoctors();
+                document.getElementById('ajax-doctor-form').reset();
+            }
+        });
+    });
+
+    function deleteDoctor(id) {
+        fetch(`/api/doctors/delete/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        }).then(res => res.json()).then(data => {
+            if (data.status === 'deleted') loadDoctors();
+        });
+    }
+
+    loadDoctors();
+</script>
+{% endblock %}

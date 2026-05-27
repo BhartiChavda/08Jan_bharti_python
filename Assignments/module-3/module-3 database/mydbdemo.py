@@ -38,10 +38,13 @@ try:
 except Exception as e:
     print(e)
 
-    show_data="select * FROM product"
+show_data="select * FROM product"
 try:
-    db.execute(show_data)
-    db.commit()
+    cursor=db.execute(show_data)
+    rows=cursor.fetchall()
+    
     print("table show!")
+    for row in rows:
+     print(row)
 except Exception as e:
     print(e)

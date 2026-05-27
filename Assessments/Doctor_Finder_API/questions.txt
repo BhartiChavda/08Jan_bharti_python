@@ -1,0 +1,41 @@
+Section A: Conceptual Understanding
+
+1. Explain why REST APIs are preferred for mobile and frontend-heavy apps.
+Answer: 
+REST APIs are the industry standard for modern mobile and frontend-heavy applications (like Single Page Applications built in React, Angular, or Vue) primarily because of their separation of concerns and lightweight data exchange formats. By separating the user interface logic (client) from the data storage and business logic (server), different platforms (e.g., an iOS app, an Android app, and a web dashboard) can simultaneously consume the exact same backend API without requiring any server-side changes. Furthermore, REST APIs heavily rely on JSON (JavaScript Object Notation) for data transfer. JSON is far less verbose and much faster to parse than older formats like XML (used in SOAP). This lightweight nature is crucial for mobile networks where bandwidth and latency can be unpredictable. Additionally, REST's stateless nature means the server doesn't need to remember client context between requests, which vastly improves backend scalability.
+
+2. Explain how serializers act as a validation layer and how to implement custom field-level validation.
+Answer: 
+In the Django REST Framework (DRF), serializers are not just for converting complex Python models into JSON; they are a critical security and data-integrity gateway. When an API receives incoming data (deserialization), you must call `.is_valid()` on the serializer before accessing the data. During this step, the serializer automatically cross-references the incoming payload against the defined model fields, enforcing constraints like `max_length`, `unique=True`, or checking if required fields are present. 
+To implement custom field-level validation for specific business logic (e.g., ensuring a doctor's consultation fee is not a negative number), you can add a method specifically named `validate_<field_name>(self, value)`. 
+For example:
+```python
+def validate_consultation_fee(self, value):
+    if value < 0:
+        raise serializers.ValidationError("Consultation fee cannot be negative.")
+    return value
+```
+If the validation fails, DRF automatically intercepts the `ValidationError` and returns a clean HTTP 400 Bad Request response containing the specific field errors.
+
+3. Explain the importance of using appropriate HTTP status codes (201 Created vs 200 OK) for API outcomes.
+Answer: 
+Appropriate HTTP status codes are essential because they act as a universal, programmatic language between the server and the client. Instead of a frontend developer having to parse the JSON body to figure out if an operation succeeded or failed, they can rely purely on the status code to trigger the correct user interface behavior (like showing a success toast, redirecting the user, or displaying an error form). 
+While `200 OK` is a generic success indicator commonly used for GET (fetching data) or PUT (updating data) requests, `201 Created` provides a much more specific semantic meaning. It explicitly tells the client that a POST request was not only processed successfully but that it resulted in the creation of a brand new resource on the server. Proper utilization of status codes (including `400 Bad Request`, `401 Unauthorized`, `404 Not Found`, etc.) makes an API predictable, self-documenting, and robust.
+
+4. Explain why pagination is required when listing doctors and how it impacts database performance.
+Answer: 
+Pagination is absolutely mandatory for scalable API design. Imagine a scenario where the application scales and the database eventually contains 50,000 doctor records. If an API endpoint attempts to fetch and return all 50,000 records in a single GET request, it will cause severe performance bottlenecks on multiple fronts. 
+From a database perspective, executing a query to fetch massive amounts of rows locks up database resources and takes a long time to execute. From a backend server perspective, loading all those objects into memory can cause the application to crash due to out-of-memory errors. Finally, from a networking and client perspective, transmitting a massive JSON payload over the internet will result in extremely slow loading times, leading to a terrible User Experience (UX), especially on mobile devices. 
+Pagination solves this by enforcing a limit and offset (e.g., returning only 20 records at a time). This ensures queries remain highly performant, memory usage is kept low, and the network payload is lightweight, regardless of how much the total database size grows.
+
+5. Explain the benefits of ViewSets over APIView for rapid CRUD development.
+Answer: 
+While `APIView` provides maximum flexibility, it requires a significant amount of boilerplate code. With `APIView`, you must manually define HTTP methods (`get`, `post`, `put`, `delete`) and manually write the logic to fetch querysets, serialize data, and handle routing. 
+`ViewSets` (and specifically `ModelViewSet`) are designed to eliminate this repetition, strictly adhering to the DRY (Don't Repeat Yourself) principle. By simply providing a `queryset` and a `serializer_class`, a `ModelViewSet` automatically generates the logic for all standard CRUD operations: listing records, retrieving a single record, creating, updating, and deleting. 
+Furthermore, ViewSets integrate seamlessly with DRF `Routers`. Instead of manually wiring up individual URL paths for list views and detail views, a Router automatically maps the ViewSet actions to standard RESTful URL conventions. This allows developers to build fully functional, standardized APIs in a fraction of the time it would take using standard Views.
+
+6. Explain the use of Atomic Transactions (transaction.atomic) when creating related doctor records to ensure data integrity.
+Answer: 
+An atomic transaction is a database concept (part of ACID properties) that guarantees a block of multiple database operations will either execute entirely successfully or fail completely as a single unit. There is no in-between state. 
+This is critical when creating complex, related records. Consider a scenario where signing up a new doctor involves two steps: first, creating a `User` account model for login credentials, and second, creating a related `DoctorProfile` model containing their specialty and clinic details. If the system creates the `User` account successfully, but the `DoctorProfile` creation fails (perhaps due to a missing required field or a database timeout), you are left with an "orphaned" User account that has no associated profile. This corrupts data integrity. 
+By wrapping these operations in a `with transaction.atomic():` block, Django monitors the process. If any step raises an exception, the entire transaction is rolled back, meaning the `User` account creation is undone as if it never happened. This ensures the database is always left in a clean, consistent state.

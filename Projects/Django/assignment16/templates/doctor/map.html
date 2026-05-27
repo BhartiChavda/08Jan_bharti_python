@@ -1,0 +1,38 @@
+{% extends 'doctor/base.html' %}
+{% block content %}
+<div class="glass-card">
+    <h2><i class="fa-solid fa-map-location-dot"></i> Doctor Locations (Lab 20)</h2>
+    <div id="map" style="height: 500px; width: 100%; border: 4px solid var(--glass-border); border-radius: 12px;"></div>
+</div>
+
+<div id="doctor-data" style="display: none;">
+    {% for doctor in doctors %}
+    <span class="doc-marker" data-name="{{ doctor.name }}" data-location="{{ doctor.location }}" data-index="{{ forloop.counter }}"></span>
+    {% endfor %}
+</div>
+
+<script>
+    // Lab 20: Google Maps API Integration
+    function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: myLatLng
+        });
+
+        var markers = document.querySelectorAll('.doc-marker');
+        markers.forEach(function(marker) {
+            var index = parseInt(marker.getAttribute('data-index'));
+            var name = marker.getAttribute('data-name');
+            var location = marker.getAttribute('data-location');
+            
+            new google.maps.Marker({
+                position: {lat: -25.363 + index, lng: 131.044 + index},
+                map: map,
+                title: name + ' - ' + location
+            });
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+{% endblock %}
