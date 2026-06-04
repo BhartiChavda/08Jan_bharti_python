@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications / X{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="sticky top-0 bg-white/80 dark:bg-dark/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-darkBorder">
+    <h1 class="text-xl font-bold px-4 py-3 cursor-pointer">Notifications</h1>
+    <div class="flex">
+        <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center">
+            <div class="py-4 font-bold border-b-4 border-twitter text-[15px]">All</div>
+        </a>
+        <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center text-grayText">
+            <div class="py-4 font-medium text-[15px]">Verified</div>
+        </a>
+        <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center text-grayText">
+            <div class="py-4 font-medium text-[15px]">Mentions</div>
+        </a>
+    </div>
+</div>
+
+<div class="p-8 text-black dark:text-white mx-auto max-w-[400px]">
+    <h2 class="text-3xl font-bold mb-2 text-center">Nothing to see here — yet</h2>
+    <p class="text-grayText text-[15px] text-center">From likes to reposts and a whole lot more, this is where all the action happens.</p>
+</div>
+{% endblock %}

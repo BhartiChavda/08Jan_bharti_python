@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Checkout</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .razorpay-payment-button { padding: 10px 20px; background-color: #3399cc; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; max-width: 200px; margin-top: 15px; }
+        .razorpay-payment-button:hover { background-color: #2b80aa; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Complete Payment</h2>
+    <p>Amount: ₹{{ display_amount }}</p>
+    <form action="{% url 'success' %}" method="POST">
+        {% csrf_token %}
+        <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ api_key }}" 
+            data-amount="{{ amount }}" 
+            data-currency="INR"
+            data-order_id="{{ order_id }}"
+            data-buttontext="Pay with Razorpay"
+            data-name="My Business"
+            data-description="Test Transaction"
+            data-image="https://example.com/your_logo.jpg"
+            data-prefill.name=""
+            data-prefill.email=""
+            data-theme.color="#3399cc">
+        </script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+</div>
+
+</body>
+</html>

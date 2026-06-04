@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Explorer - Interactive Map</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS and JS (OpenStreetMap) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                flex-direction: row;
+                align-items: stretch;
+            }
+        }
+
+        .info-panel {
+            flex: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-container {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .search-button {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-button:hover {
+            background: var(--primary-hover);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+        }
+
+        .search-box::placeholder {
+            color: #64748b;
+        }
+
+        .info-card {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        .info-card p {
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .map-container {
+            flex: 2;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            min-height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 1024px) {
+            .map-container {
+                min-height: 600px;
+            }
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Fix for Google Maps Autocomplete Dropdown */
+        .pac-container {
+            z-index: 10000 !important;
+            background-color: var(--card-bg) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8) !important;
+        }
+        .pac-item {
+            color: var(--text-muted) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+            padding: 10px !important;
+            cursor: pointer !important;
+        }
+        .pac-item:hover {
+            background-color: rgba(79, 70, 229, 0.2) !important;
+        }
+        .pac-item-query {
+            color: white !important;
+            font-size: 1rem;
+        }
+        .pac-matched {
+            color: #818cf8 !important;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>Global Explorer</h1>
+            <div class="subtitle">Interactive mapping experience</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="info-panel">
+            
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-box" placeholder="Search for any location..." />
+                <button id="search-btn" class="search-button">Search</button>
+            </div>
+
+            <div class="info-card" id="current-selection-card">
+                <h3>Location Details</h3>
+                <p id="place-name" style="font-weight: 600; font-size: 1.1rem; color: white;">New Delhi, India</p>
+                <p id="place-coords" style="font-size: 0.85rem; margin-top: 0.5rem; color: #64748b;">Lat: 28.6139, Lng: 77.2090</p>
+                <p id="place-address" style="font-size: 0.9rem; margin-top: 0.5rem; color: #cbd5e1;">New Delhi, Delhi, India</p>
+            </div>
+
+            <div class="info-card" style="margin-top: auto;">
+                <h3>Status</h3>
+                <p id="api-status" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #22c55e;"></span>
+                    Map API Connected
+                </p>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <script>
+        let map;
+        let activeMarker;
+
+        // Initialize Map when the page loads
+        document.addEventListener("DOMContentLoaded", () => {
+            const initialPosition = [28.6139, 77.2090]; // New Delhi
+
+            // 1. Create map and set initial view
+            map = L.map('map').setView(initialPosition, 5);
+
+            // 2. Add OpenStreetMap tile layer (Free, no API key needed)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // 3. Add initial marker
+            activeMarker = L.marker(initialPosition).addTo(map)
+                .bindPopup("New Delhi, India")
+                .openPopup();
+
+            // 4. Setup Search Functionality
+            const searchBtn = document.getElementById("search-btn");
+            const searchInput = document.getElementById("search-input");
+
+            searchBtn.addEventListener("click", () => {
+                const query = searchInput.value;
+                if (!query) return;
+
+                // Use Nominatim API for geocoding (OpenStreetMap's free search)
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            const place = data[0];
+                            const lat = parseFloat(place.lat);
+                            const lon = parseFloat(place.lon);
+                            const addressName = place.display_name.split(',')[0];
+                            
+                            updateMapAndPanel(lat, lon, addressName, place.display_name);
+                        } else {
+                            alert("Location not found. Please try a different search term.");
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Search Error:", err);
+                        alert("Error searching for location.");
+                    });
+            });
+
+            // Allow pressing Enter to trigger search
+            searchInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    searchBtn.click();
+                }
+            });
+
+            // 5. Map Click Functionality (Reverse Geocoding)
+            map.on('click', function(e) {
+                const lat = e.latlng.lat;
+                const lon = e.latlng.lng;
+
+                // Use Nominatim API for reverse geocoding to get address from clicked coordinates
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let placeName = "Unknown Location";
+                        let address = "Address details not found";
+
+                        if (data && data.display_name) {
+                            address = data.display_name;
+                            // Extract the first part of the address as the place name
+                            placeName = address.split(',')[0]; 
+                        }
+                        
+                        updateMapAndPanel(lat, lon, placeName, address);
+                    })
+                    .catch(err => {
+                        console.error("Reverse Geocoding Error:", err);
+                        updateMapAndPanel(lat, lon, "Unknown Location", "Could not fetch address details. Check internet connection.");
+                    });
+            });
+            
+            // Update the API status indicator to show we are using free OSM
+            document.getElementById("api-status").innerHTML = `<span style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #22c55e;"></span> OpenStreetMap Connected (Free)`;
+        });
+
+        // Helper function to update the marker and the side panel details
+        function updateMapAndPanel(lat, lon, name, address) {
+            // Remove old marker if exists
+            if (activeMarker) {
+                map.removeLayer(activeMarker);
+            }
+            
+            // Add new marker
+            activeMarker = L.marker([lat, lon]).addTo(map)
+                .bindPopup(name)
+                .openPopup();
+                
+            // Move map to the new location
+            map.setView([lat, lon], 13);
+
+            // Update the information panel with the new details
+            document.getElementById("place-name").textContent = name || "Selected Location";
+            document.getElementById("place-coords").textContent = `Lat: ${lat.toFixed(4)}, Lng: ${lon.toFixed(4)}`;
+            document.getElementById("place-address").textContent = address || "No detailed address available.";
+        }
+    </script>
+</body>
+</html>

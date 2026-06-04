@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Search "{{ query }}" / X{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="sticky top-0 bg-white/80 dark:bg-dark/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-darkBorder flex items-center h-[53px] px-4 gap-6">
+    <a href="javascript:history.back()" class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer">
+        <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="flex-1">
+        <div class="w-full bg-gray-100 dark:bg-[#202327] rounded-full px-4 py-1 flex items-center gap-3">
+            <i class="fa-solid fa-magnifying-glass text-grayText"></i>
+            <form action="{% url 'search' %}" method="GET" class="flex-1">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search" class="w-full bg-transparent outline-none">
+            </form>
+            {% if query %}
+            <a href="{% url 'search' %}" class="w-5 h-5 bg-twitter text-white rounded-full flex items-center justify-center text-[10px]">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<div class="flex border-b border-gray-200 dark:border-darkBorder">
+    <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center">
+        <div class="py-3 font-bold border-b-4 border-twitter text-[15px]">Top</div>
+    </a>
+    <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center text-grayText">
+        <div class="py-3 font-medium text-[15px]">Latest</div>
+    </a>
+    <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center text-grayText">
+        <div class="py-3 font-medium text-[15px]">People</div>
+    </a>
+    <a href="#" class="flex-1 text-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer flex justify-center text-grayText">
+        <div class="py-3 font-medium text-[15px]">Media</div>
+    </a>
+</div>
+
+{% if not query %}
+    <div class="text-center py-10 text-grayText">
+        Enter a search term to find tweets.
+    </div>
+{% elif not tweets %}
+    <div class="text-center p-8 text-black dark:text-white">
+        <h1 class="text-3xl font-bold mb-2">No results for "{{ query }}"</h1>
+        <p class="text-grayText text-[15px]">Try searching for something else.</p>
+    </div>
+{% else %}
+    <div class="flex flex-col">
+        {% for tweet in tweets %}
+        <div class="border-b border-gray-200 dark:border-darkBorder hover:bg-gray-50 dark:hover:bg-white/5 transition px-4 py-3 cursor-pointer">
+            <div class="flex gap-3">
+                <a href="{% url 'profile' tweet.author.username %}" class="flex-shrink-0">
+                    <img src="{{ tweet.author.profile_image_url|default:'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png' }}" class="w-10 h-10 rounded-full hover:brightness-90 transition" alt="{{ tweet.author.name }}">
+                </a>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1 text-[15px] truncate">
+                            <a href="{% url 'profile' tweet.author.username %}" class="font-bold hover:underline truncate">{{ tweet.author.name|default:tweet.author.username }}</a>
+                            <span class="text-grayText truncate">@{{ tweet.author.username }}</span>
+                            <span class="text-grayText">·</span>
+                            <span class="text-grayText hover:underline">{{ tweet.created_at|slice:":10" }}</span>
+                        </div>
+                        <div class="text-grayText hover:text-twitter transition w-8 h-8 rounded-full flex items-center justify-center hover:bg-twitter/10 flex-shrink-0">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="text-[15px] mt-1 whitespace-pre-wrap break-words">{{ tweet.text }}</div>
+                    
+                    <div class="flex justify-between text-grayText mt-3 max-w-[425px]">
+                        <div class="flex items-center group cursor-pointer">
+                            <div class="w-8 h-8 rounded-full group-hover:bg-twitter/10 group-hover:text-twitter flex items-center justify-center transition">
+                                <i class="fa-regular fa-comment"></i>
+                            </div>
+                            <span class="text-[13px] px-1 group-hover:text-twitter">{{ tweet.metrics.reply_count|default:"0" }}</span>
+                        </div>
+                        <div class="flex items-center group cursor-pointer">
+                            <div class="w-8 h-8 rounded-full group-hover:bg-green-500/10 group-hover:text-green-500 flex items-center justify-center transition">
+                                <i class="fa-solid fa-retweet"></i>
+                            </div>
+                            <span class="text-[13px] px-1 group-hover:text-green-500">{{ tweet.metrics.retweet_count|default:"0" }}</span>
+                        </div>
+                        <div class="flex items-center group cursor-pointer">
+                            <div class="w-8 h-8 rounded-full group-hover:bg-pink-500/10 group-hover:text-pink-500 flex items-center justify-center transition">
+                                <i class="fa-regular fa-heart"></i>
+                            </div>
+                            <span class="text-[13px] px-1 group-hover:text-pink-500">{{ tweet.metrics.like_count|default:"0" }}</span>
+                        </div>
+                        <div class="flex items-center group cursor-pointer">
+                            <div class="w-8 h-8 rounded-full group-hover:bg-twitter/10 group-hover:text-twitter flex items-center justify-center transition">
+                                <i class="fa-solid fa-chart-simple"></i>
+                            </div>
+                            <span class="text-[13px] px-1 group-hover:text-twitter">{{ tweet.metrics.impression_count|default:"0" }}</span>
+                        </div>
+                        <div class="flex items-center group cursor-pointer">
+                            <div class="w-8 h-8 rounded-full group-hover:bg-twitter/10 group-hover:text-twitter flex items-center justify-center transition">
+                                <i class="fa-regular fa-bookmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

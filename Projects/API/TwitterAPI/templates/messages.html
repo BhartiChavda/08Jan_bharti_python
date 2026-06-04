@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Messages / X{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="sticky top-0 bg-white/80 dark:bg-dark/80 backdrop-blur-md z-10 border-b border-gray-200 dark:border-darkBorder flex items-center justify-between h-[53px] px-4">
+    <h1 class="text-xl font-bold cursor-pointer">Messages</h1>
+    <div class="flex gap-2">
+        <div class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer">
+            <i class="fa-solid fa-gear"></i>
+        </div>
+        <div class="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-darkHover transition cursor-pointer">
+            <i class="fa-regular fa-envelope"></i>
+        </div>
+    </div>
+</div>
+
+<div class="p-8 text-black dark:text-white mx-auto max-w-[400px]">
+    <h2 class="text-3xl font-bold mb-2 text-left">Welcome to your inbox!</h2>
+    <p class="text-grayText text-[15px] text-left mb-6">Drop a line, share posts and more with private conversations between you and others on X.</p>
+    <button class="bg-twitter hover:bg-twitterHover text-white font-bold py-3 px-8 rounded-full transition w-fit text-[17px]">
+        Write a message
+    </button>
+</div>
+{% endblock %}

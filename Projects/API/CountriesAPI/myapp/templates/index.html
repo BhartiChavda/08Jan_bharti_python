@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST Countries Explorer</title>
+    <!-- Bootstrap CSS for responsive and clean UI -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .search-card {
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: none;
+            margin-top: -3rem;
+        }
+        .result-card {
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: none;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+        .flag-img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #eee;
+            object-fit: cover;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #6c757d;
+        }
+        .info-value {
+            font-weight: 500;
+            color: #212529;
+        }
+        .btn-search {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+        }
+        .form-control {
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header-bg text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Global Country Explorer</h1>
+            <p class="lead opacity-75">Discover detailed information about any country in the world</p>
+        </div>
+    </header>
+
+    <div class="container pb-5">
+        <!-- Search Form -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card search-card bg-white mb-5">
+                    <div class="card-body p-4 p-md-5">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="countryInput" class="form-label text-muted fw-bold">Enter Country Name</label>
+                                <input type="text" class="form-control form-control-lg" id="countryInput" name="country" placeholder="e.g., Canada, Japan, Brazil" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg btn-search">
+                                    <i class="bi bi-search"></i> Search Country
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        {% if error %}
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                    <strong>Oops!</strong> {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Results Section -->
+        {% if country_name %}
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <div class="card result-card bg-white">
+                    {% if flag_url %}
+                    <img src="{{ flag_url }}" class="card-img-top flag-img" alt="Flag of {{ country_name }}">
+                    {% endif %}
+                    
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="card-title fw-bold text-center mb-4 text-primary">{{ country_name }}</h2>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column">
+                                    <span class="info-label text-uppercase small">Official Name</span>
+                                    <span class="info-value fs-5">{{ official_name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column">
+                                    <span class="info-label text-uppercase small">Capital City</span>
+                                    <span class="info-value fs-5">{{ capital }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column">
+                                    <span class="info-label text-uppercase small">Population</span>
+                                    <span class="info-value fs-5">{{ population }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-column">
+                                    <span class="info-label text-uppercase small">Region</span>
+                                    <span class="info-value fs-5">{{ region }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Status</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        a { display: inline-block; margin-top: 15px; text-decoration: none; color: #3399cc; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>{{ status }}</h2>
+    <a href="{% url 'index' %}">Go back to Home</a>
+</div>
+
+</body>
+</html>
