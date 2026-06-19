@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django CRUD</title>
+</head>
+<body>
+    <h1>Welcome to Show data page</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Mobile</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{i.name}}</td>
+            <td>{{i.age}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.mobile}}</td>
+            <td><a href="{% url 'updatedata' i.id %}">Update</a> &nbsp; <a href="#">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    
+    
+</body>
+</html>

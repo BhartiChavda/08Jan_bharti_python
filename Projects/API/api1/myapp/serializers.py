@@ -5,3 +5,4 @@ class apiserializer(serializers.ModelSerializer):
     class Meta:
         model=apimodels
         fields="__all__"
+   
