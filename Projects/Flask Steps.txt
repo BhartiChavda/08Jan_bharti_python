@@ -1,0 +1,107 @@
+Flask steps
+Flask default local server is 5000
+pip install flask
+
+Flask project has to be created manually
+create a py file in flask project
+In the .py file
+from flask import Flask
+
+to initialize
+object
+app=Flask(__name__) #app initialization
+
+to run the app in flask a single command is used instead of wsgi file
+app.run()
+
+Flask follows structure url-view-template
+In flask routing is used instead of url
+@app.route('/')
+
+View:
+def index():
+	return 'Hello Flask'
+
+To avoid refreshing/reponing the server
+write app.run(debug=True), port can also be changed (debug=True, port=3000)
+
+
+For basic Template 
+create a templates folder in the project to store html files
+import render_template in app.py
+in the view:
+def index():
+	return render_template('index.html')
+
+For template integration
+Just like in Django store html files in templates and css, imgs and js in static folder
+
+You have to initialize statuc path
+app=Flask(__name__, static_url_path='/static')
+
+Database connectivity
+First install:
+pip install flask_sqlalchemy -------- By default SQLite connector, for MySQL install pymysql
+
+first import
+from flask_sqlalchemy import SQLAlchemy
+
+DB Config
+to get the attributes initially since it is case sensitive go to flask official website
+or search flask db config and use the basic configuration setup decide the db server and db name
+
+we require one object
+db=SQLAlchemy(app)
+
+DB Model
+create classes for model
+class Studinfo(db.Model): 
+	id=db.Column(db.Interger, primary_key=True)
+	name=db.Column(db.String(20))
+
+To execute the model or create table in db like makemigration
+with app.app_context():
+	db.create_all()		This is a one time process. Just create models going forward
+
+
+For insert the frontend logic is same as django
+If you perform database operation then in route write
+@app.route('/', methods=['GET', 'POST']) #Compulsory GET is to be written
+
+import request
+then in view 
+def index():
+	if request.method=='POST':
+		nm=request.form["name"]
+		ct=request.form["city"]
+		stdata = StudInfo(name:nm, city:ct)
+		db.session.add(stdata)
+		db.session.commit()	
+
+
+For select frontend logic is same as django
+@app.route('/showdata')
+def showdata():
+	stdata = StudInfo.query.all()
+	return render_template('showdata.html', stdata=stdata)
+
+For update and delete frontend logic is same as django
+Delete
+@app.route('/showdata/<int:id>')
+def deletedata(id):
+	stid=StudInfo.query.get(id)
+	db.session.delete(stid)
+	db.session.commit()
+	return redirect('/showdata')
+(To redirect to same page, first import redirect and return)
+
+Update
+@app.route('/updatedata/<int:id>', methods=['GET', 'POST'])
+def updatedata(id):
+	stid=StudInfo.query.get(id)
+	if request.method=='POST':
+		stid.name=request.form['name'] (In Flask you have to take the name of the data you want eg stid.name, stid.city etc)
+		db.session.commit()
+		print('Record updated')
+		return redirect('/showdata')
+	return render_template('updatedata.html', stid=tid)
