@@ -1,0 +1,34 @@
+#odd even
+num = int(input("Enter Number: "))
+
+if num % 2 == 0:
+    print("Even")
+else:
+    print("Odd")
+
+#Positive, Negative or Zero
+num = int(input("Enter Number: "))
+
+if num > 0:
+    print("Positive")
+elif num < 0:
+    print("Negative")
+else:
+    print("Zero")
+
+#Eligible for Voting
+age = int(input("Enter Age: "))
+
+if age >= 18:
+    print("Eligible")
+else:
+    print("Not Eligible")
+
+#Largest of Two Numbers
+a = int(input("Enter First Number: "))
+b = int(input("Enter Second Number: "))
+
+if a > b:
+    print("Largest =", a)
+else:
+    print("Largest =", b)

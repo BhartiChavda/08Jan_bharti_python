@@ -8,3 +8,14 @@ for ch in text:
         lower += 1
 print("Uppercase:", upper)
 print("Lowercase:", lower)
+
+check=input("enter string: ")
+upper=0
+lower=0
+for i in check:
+    if i.isupper():
+        upper +=1
+    elif i.lower():
+        lower +=1
+print("upper case:",upper)
+print("lower case: ",lower)
